@@ -14,22 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// CRUD
-// 1. [GET] /api/questions
-// 2. [POST] /api/questions
-// 3. [GET] /api/questions/{id}
-// 4. [PUT] /api/questions/{id}
-// 5. [DELETE] /api/questions/{id}
-
-// Create resoruce (questions)
-// 1. Create the database and migrations
-// 2. Create a model
-// 3. Create a service (Eloquent ORM)
-// 4. Create a controller
-// 5. Return the data
-
-Route::get('/test', function() {
-    return ['message' => 'okay'];
+Route::prefix('v1')->group(function() {
+    // CRUD
+    // 1. [GET] /api/questions
+    // 2. [POST] /api/questions
+    // 3. [GET] /api/questions/{id}
+    // 4. [PUT] /api/questions/{id}
+    // 5. [DELETE] /api/questions/{id}
+    Route::apiResource('questions', 'QuestionController');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
