@@ -4,28 +4,43 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Question;
+use App\Models\Category;
 
 class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // Get all questions
-        return Question::all();
+        // Get all questions with pagination and more
+        
+        $data = array();
+        
+        // Build questions
+        $questions = Question::paginate(10);
+        $data['questions'] = $questions;
+        
+        // Build categories
+        $categories = Category::all();
+        $categories_data = array();
+        foreach ($categories as $k => $v) {
+            $categories_data[$v['id']] = $v['type'];
+        }
+        $data['categories'] = $categories_data;
+        
+        return $data;
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function store(Request $request)
-    {
+    {    
         // Validate data
         $request->validate([
             'question' => 'required',
@@ -42,7 +57,7 @@ class QuestionController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function show($id)
     {
@@ -70,7 +85,7 @@ class QuestionController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 
      */
     public function destroy($id)
     {

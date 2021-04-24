@@ -23,14 +23,16 @@ class QuestionView extends Component {
 
   getQuestions = () => {
     $.ajax({
-      url: `/questions?page=${this.state.page}`, //TODO: update request URL
+      headers: {'Access-Control-Allow-Origin': 'http://localhost'},
+      url: `http://localhost/api/v1/questions?page=${this.state.page}`, //TODO: update request URL
       type: "GET",
+      dataType: 'json',
       success: (result) => {
         this.setState({
-          questions: result.questions,
-          totalQuestions: result.total_questions,
+          questions: result.questions.data,
+          totalQuestions: result.questions.total,
           categories: result.categories,
-          currentCategory: result.current_category })
+          currentCategory: 'cat' });
         return;
       },
       error: (error) => {
@@ -60,13 +62,14 @@ class QuestionView extends Component {
 
   getByCategory= (id) => {
     $.ajax({
-      url: `/categories/${id}/questions`, //TODO: update request URL
+      headers: {'Access-Control-Allow-Origin': 'http://localhost'},
+      url: `http://localhost/api/v1/categories/${id}/questions`, //TODO: update request URL
       type: "GET",
       success: (result) => {
         this.setState({
-          questions: result.questions,
-          totalQuestions: result.total_questions,
-          currentCategory: result.current_category })
+          questions: result.questions.data,
+          totalQuestions: result.total,
+          currentCategory: result.category })
         return;
       },
       error: (error) => {
@@ -78,11 +81,12 @@ class QuestionView extends Component {
 
   submitSearch = (searchTerm) => {
     $.ajax({
-      url: `/questions`, //TODO: update request URL
+      headers: {'Access-Control-Allow-Origin': 'http://localhost'},
+      url: `http://localhost/api/v1/search`, //TODO: update request URL
       type: "POST",
       dataType: 'json',
       contentType: 'application/json',
-      data: JSON.stringify({searchTerm: searchTerm}),
+      data: JSON.stringify({search_term: searchTerm}),
       xhrFields: {
         withCredentials: true
       },
@@ -90,8 +94,8 @@ class QuestionView extends Component {
       success: (result) => {
         this.setState({
           questions: result.questions,
-          totalQuestions: result.total_questions,
-          currentCategory: result.current_category })
+          totalQuestions: result.total,
+          currentCategory: result.category })
         return;
       },
       error: (error) => {
@@ -105,7 +109,8 @@ class QuestionView extends Component {
     if(action === 'DELETE') {
       if(window.confirm('are you sure you want to delete the question?')) {
         $.ajax({
-          url: `/questions/${id}`, //TODO: update request URL
+          headers: {'Access-Control-Allow-Origin': 'http://localhost'},
+          url: `http://localhost/api/v1/questions/${id}`, //TODO: update request URL
           type: "DELETE",
           success: (result) => {
             this.getQuestions();
@@ -141,7 +146,7 @@ class QuestionView extends Component {
               key={q.id}
               question={q.question}
               answer={q.answer}
-              category={this.state.categories[q.category]} 
+              category={this.state.categories[q.category_id]} 
               difficulty={q.difficulty}
               questionAction={this.questionAction(q.id)}
             />

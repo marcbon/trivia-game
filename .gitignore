@@ -95,6 +95,7 @@ ENV/
 .idea
 
 # NetBeans project settings
-/nbproject/
+**/nbproject/
 
 /backend/api/nbproject/private/
+/frontend/nbproject/private/
