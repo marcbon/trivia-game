@@ -11,12 +11,11 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * 
      */
     public function index()
     {
-        // Get all questions with pagination and more
-        
-        $data = array();
+        $data = [];
         
         // Build questions
         $questions = Question::paginate(10);
@@ -24,7 +23,7 @@ class QuestionController extends Controller
         
         // Build categories
         $categories = Category::all();
-        $categories_data = array();
+        $categories_data = [];
         foreach ($categories as $k => $v) {
             $categories_data[$v['id']] = $v['type'];
         }
@@ -40,7 +39,7 @@ class QuestionController extends Controller
      * 
      */
     public function store(Request $request)
-    {    
+    {
         // Validate data
         $request->validate([
             'question' => 'required',
@@ -49,7 +48,7 @@ class QuestionController extends Controller
             'category_id' => 'required'
         ]);
          
-        // Create a question
+        // Create question
         return Question::create($request->all());
     }
 
@@ -61,8 +60,13 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        // Show a question
-        return Question::find($id);
+        // Show question
+        $question = Question::find($id);
+        if ($question) {
+            return $question;
+        } else {
+            abort(404);
+        }
     }
 
     /**
@@ -74,7 +78,15 @@ class QuestionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Update a question
+        // Validate data
+        $request->validate([
+            'question' => 'required',
+            'answer' => 'required',
+            'difficulty' => 'required',
+            'category_id' => 'required'
+        ]);
+        
+        // Update question
         $question = Question::find($id);
         $question->update($request->all());
         
@@ -89,7 +101,13 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        // Delete a question
-        return Question::destroy($id);
+        // Check if question id exists
+        $question = Question::find($id);
+        if ($question) {
+            // Delete question
+            return Question::destroy($id);
+        } else {
+            abort(404);
+        }
     }
 }
