@@ -17,11 +17,11 @@ class QuestionController extends Controller
     {
         $data = [];
         
-        // Build questions
+        // Get questions
         $questions = Question::paginate(10);
         $data['questions'] = $questions;
         
-        // Build categories
+        // Get categories
         $categories = Category::all();
         $categories_data = [];
         foreach ($categories as $k => $v) {
@@ -60,7 +60,7 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        // Show question
+        // Get question
         $question = Question::find($id);
         if ($question) {
             return $question;

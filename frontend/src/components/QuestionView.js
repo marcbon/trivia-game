@@ -31,8 +31,7 @@ class QuestionView extends Component {
         this.setState({
           questions: result.questions.data,
           totalQuestions: result.questions.total,
-          categories: result.categories,
-          currentCategory: 'cat' });
+          categories: result.categories });
         return;
       },
       error: (error) => {
@@ -65,9 +64,10 @@ class QuestionView extends Component {
       headers: {'Access-Control-Allow-Origin': 'http://localhost'},
       url: `http://localhost/api/v1/categories/${id}/questions`,
       type: "GET",
+      dataType: 'json',
       success: (result) => {
         this.setState({
-          questions: result.questions.data,
+          questions: result.questions,
           totalQuestions: result.total,
           currentCategory: result.category })
         return;
@@ -112,6 +112,7 @@ class QuestionView extends Component {
           headers: {'Access-Control-Allow-Origin': 'http://localhost'},
           url: `http://localhost/api/v1/questions/${id}`,
           type: "DELETE",
+          dataType: 'json',
           success: (result) => {
             this.getQuestions();
           },

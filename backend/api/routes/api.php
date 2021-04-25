@@ -23,7 +23,8 @@ Route::prefix('v1')
                 $request->validate([
                     'search_term' => 'required'
                 ]);
-
+                
+                // Get data
                 $search = $request->get('search_term');
                 $data = [];
                 $questions = DB::table('questions')->whereRaw('LOWER(question) LIKE ? ', '%' . strtolower($search) . '%')->get();
@@ -49,7 +50,7 @@ Route::prefix('v1')
 
             // Get questions of a specific category
             Route::get('/categories/{id}/questions', function($id) {
-                $category = Category::find($id);                
+                $category = Category::find($id);           
                 if ($category) {
                     $data = [];
                     $questions = DB::table('questions')->where('category_id', '=', $id)->get();
@@ -72,6 +73,7 @@ Route::prefix('v1')
                     'quiz_category' => 'required'
                 ]);
 
+                // Get data
                 $data = [];
                 $previous_questions = $request->get('previous_questions');
                 $category_id = $request->get('quiz_category');
