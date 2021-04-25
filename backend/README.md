@@ -216,6 +216,7 @@ DELETE '/api/v1/questions/{id}
     "updated_at": "2021-04-21T22:59:31.000000Z"
 }
 
+Search questions
 POST '/api/v1/search'
 - Description: Fetches all the questions containing the searched string
 - Request Arguments: None
@@ -237,6 +238,7 @@ POST '/api/v1/search'
     "total": 8
 }
 
+Get questions from a specific category
 GET '/api/v1/categories/{id}/questions'
 - Description: Fetches all the questions from a specific category
 - Request Arguments: id: the category id to retrieve the related questions
@@ -259,6 +261,7 @@ GET '/api/v1/categories/{id}/questions'
     "category": 2
 }
 
+Get all categories
 GET '/api/v1/categories'
 - Description: Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
@@ -275,6 +278,7 @@ GET '/api/v1/categories'
     }
 }
 
+Get the current question to play the quiz
 POST '/api/v1/quiz'
 - Description: Fetches the questions to play the quiz for a specific category
 - Request Arguments: None
