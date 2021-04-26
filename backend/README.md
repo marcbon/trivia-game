@@ -24,7 +24,7 @@ If you like to change the environment for the project, you can do that by editin
 
 ### Docker Setup
 
-Once your WSL distro (i.e. Ubuntu-16.04) is correctly installed and integrated with Docker, navigate to the `/backend/api` directory and run:
+Once your WSL distro (i.e. Ubuntu-16.04) is correctly installed and integrated with Docker, navigate to the `/backend/api` directory and run in terminal:
 
 ```bash
 wsl
@@ -297,3 +297,46 @@ POST '/api/v1/quiz'
 }
 
 ```
+
+## Testing
+
+Build the test environment by creating the new database exclusively used for testing purposes.
+
+To do this, access the `api_psql` Docker container bash, and run:
+
+```bash
+su postgres
+```
+
+Open the `psql` terminal:
+
+```bash
+psql
+```
+
+Now create the new database for testing with the following command:
+
+```bash
+CREATE DATABASE 'testing' WITH TEMPLATE 'databasename';
+```
+
+Where `databasename` is the name of your application's database (specified in the `DB_DATABASE` variable in the `.env` file).
+
+You should now see the created database by listing all the existing databases:
+
+```bash
+\l
+```
+
+Go back to the OS CLI and navigate to the `/backend/api` directory and run in terminal:
+
+```
+wsl
+```
+
+To run the tests, type:
+
+```
+vendor/bin/sail test
+```
+
